@@ -48,3 +48,11 @@ class ActiveVehiclesView(generics.ListAPIView):
 
     def get_queryset(self):
         return Vehicle.objects.filter(parkingsession__check_out_time__isnull=True).distinct()
+class ActiveVehicleDetailView(APIView):
+    def get(self, request, vehicle_id, *args, **kwargs):
+        try:
+            vehicle = Vehicle.objects.get(id=vehicle_id, parkingsession__check_out_time__isnull=True)
+            vehicle_data = ActiveVehicleSerializer(vehicle).data
+            return Response(vehicle_data, status=status.HTTP_200_OK)
+        except Vehicle.DoesNotExist:
+            return Response({"message": "Active vehicle not found"}, status=status.HTTP_404_NOT_FOUND)
