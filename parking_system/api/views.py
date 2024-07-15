@@ -1,10 +1,10 @@
-from datetime import timezone
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from .models import Vehicle, ParkingSession
-from .serializers import UserSerializer, VehicleSerializer, ParkingSessionSerializer
+from .serializers import UserSerializer, VehicleSerializer, ParkingSessionSerializer,ActiveVehicleSerializer
+from django.utils import timezone
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = UserSerializer
@@ -24,9 +24,9 @@ class CheckInView(APIView):
         vehicle, created = Vehicle.objects.get_or_create(license_plate=license_plate, defaults=request.data)
         if not created:
             return Response({"message": "Vehicle already exists"}, status=status.HTTP_400_BAD_REQUEST)
-        ParkingSession.objects.create(vehicle=vehicle)
-        return Response({"message": "Check-in successful"}, status=status.HTTP_200_OK)
-
+        session = ParkingSession.objects.create(vehicle=vehicle)
+        session_data = ParkingSessionSerializer(session).data
+        return Response({"message": "Check-in successful", "data": session_data}, status=status.HTTP_200_OK)
 class CheckOutView(APIView):
     def post(self, request, *args, **kwargs):
         license_plate = request.data.get('license_plate')
@@ -44,7 +44,7 @@ class CheckOutView(APIView):
             return Response({"message": "No active session found"}, status=status.HTTP_404_NOT_FOUND)
 
 class ActiveVehiclesView(generics.ListAPIView):
-    serializer_class = VehicleSerializer
+    serializer_class = ActiveVehicleSerializer
 
     def get_queryset(self):
-        return Vehicle.objects.filter(parkingsession__check_out_time__isnull=True)
+        return Vehicle.objects.filter(parkingsession__check_out_time__isnull=True).distinct()
