@@ -129,10 +129,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ALLOWED_HOSTS = ['parking-system-api.onrender.com', 'localhost']
 CORS_ALLOWED_ORIGINS = [
-       "*"
+    "https://parking-frontend-six.vercel.app",
 ]
 
-CORS_ALLOW_HEADERS = ['*']
+CORS_ALLOW_HEADERS = [
+    'Content-Type',  # Adjust as needed based on your application's requirements
+    'Authorization',  # Include any additional headers your application uses
+]
+
 
 
 CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for now; you can adjust this based on your needs
