@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'api',
+    'corsheaders',
 
 
 ]
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'parking_system.urls'
@@ -127,3 +129,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ALLOWED_HOSTS = ['parking-system-api.onrender.com','https://parking-system-api.onrender.com/']
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
