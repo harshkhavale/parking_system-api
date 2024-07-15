@@ -25,7 +25,6 @@ SECRET_KEY = 'django-insecure-%i_m)13q07nhaz@5&!o@9&)_g+_ltgztqkf)kd4zmi^e77(p7_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -128,7 +127,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-ALLOWED_HOSTS = ['parking-system-api.onrender.com','https://parking-system-api.onrender.com/']
+ALLOWED_HOSTS = ['parking-system-api.onrender.com', 'localhost']
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5173"
